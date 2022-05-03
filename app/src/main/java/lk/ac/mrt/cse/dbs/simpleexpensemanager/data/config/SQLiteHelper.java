@@ -11,7 +11,7 @@ import lk.ac.mrt.cse.dbs.simpleexpensemanager.data.schema.TransactionSchema;
 
 public class SQLiteHelper extends SQLiteOpenHelper {
 
-    private static final String DB_NAME= "190558B.db";
+    private static final String DB_NAME= "190558B";
     private static final Integer  DB_VERSION = 1;
 
     private static SQLiteHelper db_helper;
@@ -24,6 +24,10 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         if (db_helper ==null)
             db_helper = new SQLiteHelper(null);
         return db_helper;
+    }
+
+    public static void createSQLiteHelper(Context context){
+        db_helper = new SQLiteHelper(context);
     }
 
     @Override
@@ -44,7 +48,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
                 TransactionSchema.COLUMN_ACCOUNT_NO + "  INTEGER NOT NULL, " +
                 " CONSTRAINT fk_account FOREIGN KEY ( " +
                  TransactionSchema.COLUMN_ACCOUNT_NO +
-                " ) REFERENCES   accounts( " +
+                " ) REFERENCES  accounts( " +
                 AccountSchema.COLUMN_NAME_ACCOUNT_NO +
                 " ));";
         sqLiteDatabase.execSQL(query);

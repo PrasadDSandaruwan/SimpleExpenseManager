@@ -47,9 +47,9 @@ public class SQLiteAccountDAO implements AccountDAO {
         for (results.moveToFirst(); !results.isAfterLast(); results.moveToNext()) {
             accounts.add(new Account(
                     results.getString( results.getColumnIndex(AccountSchema.COLUMN_NAME_ACCOUNT_NO) ),
+                    results.getString(results.getColumnIndex(AccountSchema.COLUMN_NAME_BANK_NAME)),
                     results.getString(results.getColumnIndex(AccountSchema.COLUMN_NAME_ACCOUNT_HOLDER_NAME)),
-                    results.getString(results.getColumnIndex(AccountSchema.COLUMN_NAME_BALANCE)),
-                    results.getDouble(results.getColumnIndex(AccountSchema.COLUMN_NAME_BANK_NAME))
+                    results.getDouble(results.getColumnIndex(AccountSchema.COLUMN_NAME_BALANCE))
             ));
         }
         return accounts;
@@ -58,14 +58,15 @@ public class SQLiteAccountDAO implements AccountDAO {
     @Override
     public Account getAccount(String accountNo) throws InvalidAccountException {
         SQLiteDatabase db = db_helper.getReadableDatabase();
-        Cursor result = db.rawQuery("SELECT * FROM "+ AccountSchema.TABLE_NAME +" WHERE "+ AccountSchema.COLUMN_NAME_ACCOUNT_NO +" = " + accountNo + "", null);
+        Cursor result = db.rawQuery("SELECT * FROM "+ AccountSchema.TABLE_NAME +" WHERE "+ AccountSchema.COLUMN_NAME_ACCOUNT_NO +" = '" + accountNo + "'", null);
+
 
         if(result.moveToFirst()) {
             return new Account(
-                    result.getString(result.getColumnIndex(AccountSchema.COLUMN_NAME_BANK_NAME)),
                     result.getString(result.getColumnIndex(AccountSchema.COLUMN_NAME_ACCOUNT_NO)),
-                    result.getString(result.getColumnIndex(AccountSchema.COLUMN_NAME_BALANCE)),
-                    result.getDouble(result.getColumnIndex(AccountSchema.COLUMN_NAME_ACCOUNT_HOLDER_NAME))
+                    result.getString(result.getColumnIndex(AccountSchema.COLUMN_NAME_BANK_NAME)),
+                    result.getString(result.getColumnIndex(AccountSchema.COLUMN_NAME_ACCOUNT_HOLDER_NAME)),
+                    result.getDouble(result.getColumnIndex(AccountSchema.COLUMN_NAME_BALANCE))
             );
         }else {
             String msg = "Account " + accountNo + " is invalid.";
@@ -82,7 +83,6 @@ public class SQLiteAccountDAO implements AccountDAO {
         contentValues.put(AccountSchema.COLUMN_NAME_BANK_NAME , account.getBankName());
         contentValues.put(AccountSchema.COLUMN_NAME_ACCOUNT_HOLDER_NAME , account.getAccountHolderName());
         contentValues.put(AccountSchema.COLUMN_NAME_BALANCE , account.getBalance());
-
         db.insert(AccountSchema.TABLE_NAME, null, contentValues);
 
     }
