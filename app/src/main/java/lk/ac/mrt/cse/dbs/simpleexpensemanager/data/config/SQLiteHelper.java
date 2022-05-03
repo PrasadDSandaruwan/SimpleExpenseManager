@@ -16,7 +16,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 
     private static SQLiteHelper db_helper;
 
-    public SQLiteHelper(@Nullable Context context) {
+    private SQLiteHelper(@Nullable Context context) {
         super(context, DB_NAME, null, DB_VERSION);
     }
 
@@ -53,7 +53,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TransactionSchema.TABLE_NAME);
-        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " +AccountSchema.TABLE_NAME);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + AccountSchema.TABLE_NAME);
         onCreate(sqLiteDatabase);
     }
 }
