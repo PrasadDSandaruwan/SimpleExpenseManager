@@ -16,14 +16,35 @@
 
 package lk.ac.mrt.cse.dbs.simpleexpensemanager;
 
-import android.app.Application;
-import android.test.ApplicationTestCase;
+import static org.junit.Assert.assertTrue;
+
+import android.content.Context;
+
+import androidx.test.core.app.ApplicationProvider;
+
+import org.junit.BeforeClass;
+import org.junit.Test;
+
+import lk.ac.mrt.cse.dbs.simpleexpensemanager.control.ExpenseManager;
+import lk.ac.mrt.cse.dbs.simpleexpensemanager.control.PersistentExpenseManager;
 
 /**
  * <a href="http://d.android.com/tools/testing/testing_android.html">Testing Fundamentals</a>
  */
-public class ApplicationTest extends ApplicationTestCase<Application> {
-    public ApplicationTest() {
-        super(Application.class);
+public class ApplicationTest  {
+    private static ExpenseManager expenseManager;
+    private static Context context;
+
+    @BeforeClass
+    public static void  setUPTestEnvironment(){
+        context = ApplicationProvider.getApplicationContext();
+        expenseManager = new PersistentExpenseManager();
     }
+
+    @Test
+    public void checkExpenseManagerPackage() {
+        assertTrue(context.getPackageName().equals("lk.ac.mrt.cse.dbs.simpleexpensemanager"));
+    }
+
+
 }
