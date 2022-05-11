@@ -6,3 +6,5 @@ target/
 *.i??
 .idea/
 .gradle/
+local.properties
+app/build

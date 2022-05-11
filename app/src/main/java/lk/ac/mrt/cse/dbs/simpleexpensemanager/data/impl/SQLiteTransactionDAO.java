@@ -57,10 +57,10 @@ public class SQLiteTransactionDAO implements TransactionDAO {
 
             try {
                 transactions.add(new Transaction(
-                        new SimpleDateFormat("dd/MM/yyyy").parse(results.getString(results.getColumnIndex(TransactionSchema.COLUMN_NAME_DATE))),
-                        results.getString(results.getColumnIndex(TransactionSchema.COLUMN_ACCOUNT_NO)),
-                        ExpenseType.valueOf(results.getString(results.getColumnIndex(TransactionSchema.COLUMN_NAME_EXPENSE_TYPE))),
-                        results.getDouble(results.getColumnIndex(TransactionSchema.COLUMN_NAME_AMOUNT))
+                        new SimpleDateFormat("dd/MM/yyyy").parse(results.getString(results.getColumnIndexOrThrow(TransactionSchema.COLUMN_NAME_DATE))),
+                        results.getString(results.getColumnIndexOrThrow(TransactionSchema.COLUMN_ACCOUNT_NO)),
+                        ExpenseType.valueOf(results.getString(results.getColumnIndexOrThrow(TransactionSchema.COLUMN_NAME_EXPENSE_TYPE))),
+                        results.getDouble(results.getColumnIndexOrThrow(TransactionSchema.COLUMN_NAME_AMOUNT))
                 ));
             }catch (Exception e){
                 e.printStackTrace();

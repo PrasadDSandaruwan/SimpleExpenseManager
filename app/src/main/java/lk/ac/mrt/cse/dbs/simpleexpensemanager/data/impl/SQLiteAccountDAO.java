@@ -31,7 +31,7 @@ public class SQLiteAccountDAO implements AccountDAO {
         Cursor results = db.rawQuery("SELECT "+ AccountSchema.COLUMN_NAME_ACCOUNT_NO +" FROM "+ AccountSchema.TABLE_NAME , null);
 
         for (results.moveToFirst(); !results.isAfterLast(); results.moveToNext()) {
-            account_number_list.add(results.getString(results.getColumnIndex(AccountSchema.COLUMN_NAME_ACCOUNT_NO)));
+            account_number_list.add(results.getString(results.getColumnIndexOrThrow(AccountSchema.COLUMN_NAME_ACCOUNT_NO)));
         }
 
         return account_number_list;
@@ -46,10 +46,10 @@ public class SQLiteAccountDAO implements AccountDAO {
         List<Account> accounts = new LinkedList<>();
         for (results.moveToFirst(); !results.isAfterLast(); results.moveToNext()) {
             accounts.add(new Account(
-                    results.getString( results.getColumnIndex(AccountSchema.COLUMN_NAME_ACCOUNT_NO) ),
-                    results.getString(results.getColumnIndex(AccountSchema.COLUMN_NAME_BANK_NAME)),
-                    results.getString(results.getColumnIndex(AccountSchema.COLUMN_NAME_ACCOUNT_HOLDER_NAME)),
-                    results.getDouble(results.getColumnIndex(AccountSchema.COLUMN_NAME_BALANCE))
+                    results.getString( results.getColumnIndexOrThrow(AccountSchema.COLUMN_NAME_ACCOUNT_NO) ),
+                    results.getString(results.getColumnIndexOrThrow(AccountSchema.COLUMN_NAME_BANK_NAME)),
+                    results.getString(results.getColumnIndexOrThrow(AccountSchema.COLUMN_NAME_ACCOUNT_HOLDER_NAME)),
+                    results.getDouble(results.getColumnIndexOrThrow(AccountSchema.COLUMN_NAME_BALANCE))
             ));
         }
         return accounts;
@@ -63,10 +63,10 @@ public class SQLiteAccountDAO implements AccountDAO {
 
         if(result.moveToFirst()) {
             return new Account(
-                    result.getString(result.getColumnIndex(AccountSchema.COLUMN_NAME_ACCOUNT_NO)),
-                    result.getString(result.getColumnIndex(AccountSchema.COLUMN_NAME_BANK_NAME)),
-                    result.getString(result.getColumnIndex(AccountSchema.COLUMN_NAME_ACCOUNT_HOLDER_NAME)),
-                    result.getDouble(result.getColumnIndex(AccountSchema.COLUMN_NAME_BALANCE))
+                    result.getString(result.getColumnIndexOrThrow(AccountSchema.COLUMN_NAME_ACCOUNT_NO)),
+                    result.getString(result.getColumnIndexOrThrow(AccountSchema.COLUMN_NAME_BANK_NAME)),
+                    result.getString(result.getColumnIndexOrThrow(AccountSchema.COLUMN_NAME_ACCOUNT_HOLDER_NAME)),
+                    result.getDouble(result.getColumnIndexOrThrow(AccountSchema.COLUMN_NAME_BALANCE))
             );
         }else {
             String msg = "Account " + accountNo + " is invalid.";
